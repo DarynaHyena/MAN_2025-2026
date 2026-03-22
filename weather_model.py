@@ -1,3 +1,5 @@
+''' Імпортування бібліотек'''
+
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -8,10 +10,19 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 
+'''Кінець блоку шмпортування бібліотек'''
 
-df = pd.read_csv("weather_clasification_data.csv")
 
-print(df['Cloud Cover'].value_counts())
+
+
+
+'''Очищення та підготовка датасету'''
+
+df = pd.read_csv("weather_clasification_data.csv")   #відкриваю датасет для читання
+
+df.drop(["Visibility (km)"], axis=1, inplace=True)  #видалення непотрібних колонок
+df.drop(["UV Index"], axis=1, inplace=True)
+
 def transform_cloudy(row):
     if row == "overcast":
         return 1
@@ -20,9 +31,7 @@ def transform_cloudy(row):
     elif row == "clear":
         return 3
     return 4
-df["Cloud Cover"] = df["Cloud Cover"].apply(transform_cloudy)
 
-print(df['Season'].value_counts())
 def transform_season(row):
     if row == "Winter":
         return 1
@@ -31,21 +40,14 @@ def transform_season(row):
     elif row == "Autumn":
         return 3
     return 4
-df["Season"] = df["Season"].apply(transform_season)
 
-df.drop(["Visibility (km)"], axis=1, inplace=True)
-
-
-print(df['Location'].value_counts())
 def transform_location(row):
     if row == "inland":
         return 1
     elif row == "mountain":
         return 2
     return 3
-df["Location"] = df["Location"].apply(transform_location)
 
-print(df['Weather Type'].value_counts())
 def transform_type(row):
     if row == "Rainy":
         return 1
@@ -54,18 +56,21 @@ def transform_type(row):
     elif row == "Sunny":
         return 3
     return 4
+
+df["Cloud Cover"] = df["Cloud Cover"].apply(transform_cloudy)   #застосовую функції
+df["Season"] = df["Season"].apply(transform_season)
+df["Location"] = df["Location"].apply(transform_location)
 df["Weather Type"] = df["Weather Type"].apply(transform_type)
 
-print(df.info())
+print(df.info())   #вивід загальної інформації
 
-print(df['Temperature'].value_counts())
-print(df['Humidity'].value_counts())
-print(df['Wind Speed'].value_counts())
-print(df['Precipitation (%)'].value_counts())
-print(df['Cloud Cover'].value_counts())
-print(df['Atmospheric Pressure'].value_counts())
-print(df['Season'].value_counts())
-print(df['Location'].value_counts())
+'''Кінець блоку підготовки датасету'''
+
+
+
+
+
+'''  '''
 
 # x = df.drop("Weather Type", axis=1)
 # y = df["Weather Type"]
