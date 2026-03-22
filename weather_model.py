@@ -70,22 +70,30 @@ print(df.info())   #вивід загальної інформації
 
 
 
-'''  '''
+'''Підстановка данних'''
 
-# x = df.drop("Weather Type", axis=1)
-# y = df["Weather Type"]
+x = df.drop("Weather Type", axis=1)
+y = df["Weather Type"]
 
-# x_train, x_test, y_train, y_test = train_test_split(x, y)
+x_train, x_test, y_train, y_test = train_test_split(x, y)    
 
-# sc = StandardScaler()
-# x_train = sc.fit_transform(x_train)
-# x_test = sc.transform(x_test)
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
 
-# knn = KNeighborsClassifier()
-# knn.fit(x_train, y_train)
-# y_pred_knn = knn.predict(x_test)
-# print(accuracy_score(y_test, y_pred_knn)*100)
-# print(confusion_matrix(y_test, y_pred_knn))
+'''Кінець підстановки'''
+
+
+
+
+
+''' '''
+
+knn = KNeighborsClassifier()
+knn.fit(x_train, y_train)
+y_pred_knn = knn.predict(x_test)
+print(accuracy_score(y_test, y_pred_knn)*100)
+print(confusion_matrix(y_test, y_pred_knn))
 
 # tree = DecisionTreeClassifier()
 # tree.fit(x_train, y_train)
