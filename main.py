@@ -131,4 +131,77 @@ class Screens(Screen):
       self.container.add_widget(self.location_container)
 
       self.container.add_widget(self.commit_button)
+
+    elif self.stage == 2:
+      # Етап 2: Вивід результатів 
+      self.container.add_widget(Label(text='Результат: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text=' ', font_size='18sp', color=(0,0,0,1)))
+
+  def input_check(self): # Перевірка для полів вводу
+    # Створення змінних для перевірки
+    temperature = self.temperature_input.text.strip()
+    humidity = self.humidity_input.text.strip()
+    wind = self.wind_speed_input.text.strip()
+    precipitation = self.precipitation_input.text.strip()
+    pressure = self.atmoshperic_pressure_input.text.strip()
+            
+    if not temperature and not humidity and not wind and not precipitation and not pressure: # Перевірка на наявність даних
+      if not temperature:
+        self.temperature_input.hint_text_color = hex('#ff0008')
+        self.temperature_input.hint_text = "Будь ласка, введіть температуру"
+      if not humidity:
+        self.humidity_input.hint_text_color = hex('#ff0008')
+        self.humidity_input.hint_text = "Будь ласка, введіть вологість"
+      if not wind:
+        self.wind_speed_input.hint_text_color = hex('#ff0008')
+        self.wind_speed_input.hint_text = "Будь ласка, введіть швидкість руху вітру"
+      if not precipitation:
+        self.precipitation_input.hint_text_color = hex('#ff0008')
+        self.precipitation_input.hint_text = "Будь ласка, введіть кількість опадів"
+      if not pressure:
+        self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
+        self.atmoshperic_pressure_input.hint_text = "Будь ласка, введіть тиск"
+      return False
+
         
+            
+    # Перевірка чи дані записані правильно
+    try:
+      int(temperature)
+    except ValueError:
+      self.temperature_input.text = ''
+      self.temperature_input.hint_text_color = hex('#ff0008')
+      self.temperature_input.hint_text = "Температура повинна бути числом"
+      return False
+    
+    try:
+      int(humidity)
+    except ValueError:
+      self.humidity_input.text = ''
+      self.humidity_input.hint_text_color = hex('#ff0008')
+      self.humidity_input.hint_text = "Вологість повинна бути числом"
+      return False
+    
+    try:
+      int(wind)
+    except ValueError:
+      self.wind_speed_input.text = ''
+      self.wind_speed_input.hint_text_color = hex('#ff0008')
+      self.wind_speed_input.hint_text = "Швидкість повітря повинна бути числом"
+      return False
+    
+    try:
+      int(precipitation)
+    except ValueError:
+      self.precipitation_input.text = ''
+      self.precipitation_input.hint_text_color = hex('#ff0008')
+      self.precipitation_input.hint_text = "Кількість опадів повинна бути числом"
+      return False
+    
+    try:
+      int(pressure)
+    except ValueError:
+      self.atmoshperic_pressure_input.text = ''
+      self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
+      self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск повинен бути числом"
+      return False
