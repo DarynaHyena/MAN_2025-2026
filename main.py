@@ -16,8 +16,8 @@ from kivy.utils             import get_color_from_hex as hex
 
 
 
-class Screens(Screen):
-  def __init__(self,kw): 
+class Questionnaire(Screen):
+  def __init__(self, **kw): 
     super().__init__(**kw)
     # поточний етап (1-2)
     self.stage = 1
