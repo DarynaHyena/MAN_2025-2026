@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 
-'''Кінець блоку шмпортування бібліотек'''
+'''Кінець блоку імпортування бібліотек'''
 
 
 
