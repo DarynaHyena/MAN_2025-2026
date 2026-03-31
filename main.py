@@ -8,6 +8,7 @@ from kivy.uix.label         import Label
 from kivy.uix.textinput     import TextInput
 from kivy.uix.checkbox      import CheckBox
 from kivy.metrics           import dp
+from kivy.utils             import get_color_from_hex as hex
 
 '''Кінець блоку імпортування бібліотек'''
 
@@ -42,6 +43,8 @@ class Screens(Screen):
     self.location_button_container1 = BoxLayout(orientation='horizontal', spacing=dp(10), padding=dp(10))
     self.location_button_container2 = BoxLayout(orientation='horizontal', spacing=dp(10), padding=dp(10))
     self.location_button_container3 = BoxLayout(orientation='horizontal', spacing=dp(10), padding=dp(10))
+
+    self.button_container = BoxLayout(orientation='horizontal', spacing=dp(10), padding=dp(10))
     
 
     # поля вводу
@@ -55,13 +58,12 @@ class Screens(Screen):
     self.cloud_cover_button = CheckBox()
     self.season_button = CheckBox()
     self.location_button = CheckBox()
-    self.commit_button = Button(text='Підтвердити результат', size_hint_y=None, height=dp(48))
+    self.commit_button = Button(text='Підтвердити дані', size_hint_y=None, height=dp(48))
+    self.reset_button = Button(text='Очистити дані', size_hint_y=None, height=dp(48))
 
     # підключаємо обробники
-    
-
-
-
+    self.commit_button.bind(on_press=self.commit)
+    self.reset_button.bind(on_press=self.input_reset)
 
     # збираємо
     self.anchor.add_widget(self.container)
@@ -103,7 +105,6 @@ class Screens(Screen):
       self.container.add_widget(self.atmoshperic_pressure_input)
       self.container.add_widget(Label(text='Введіть дані про пору року: ', font_size='18sp', color=(0,0,0,1)))
 
-
       self.season_button_container1.add_widget(Label(text='Зима', font_size='18sp', color=(0,0,0,1)))
       self.season_button_container1.add_widget(self.season_button)
       self.season_button_container2.add_widget(Label(text='Весна', font_size='18sp', color=(0,0,0,1)))
@@ -130,7 +131,9 @@ class Screens(Screen):
       self.location_container.add_widget(self.location_button_container3)
       self.container.add_widget(self.location_container)
 
-      self.container.add_widget(self.commit_button)
+      self.button_container.add_widget(self.commit_button)
+      self.button_container.add_widget(self.reset_button)
+      self.container.add_widget(self.button_container)
 
     elif self.stage == 2:
       # Етап 2: Вивід результатів 
@@ -163,8 +166,8 @@ class Screens(Screen):
         self.atmoshperic_pressure_input.hint_text = "Будь ласка, введіть тиск"
       return False
 
-        
-            
+
+
     # Перевірка чи дані записані правильно
     try:
       int(temperature)
@@ -205,3 +208,32 @@ class Screens(Screen):
       self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
       self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск повинен бути числом"
       return False
+    
+  def commit(self, inst):
+    # Йдемо на наступний етап
+    if self.stage < 2:
+      if self.input_check():
+        self.stage += 1
+        self.build_stage()
+
+  def input_reset(self):
+    # Очищення даних
+    self.temperature_input.text = ''
+    self.temperature_input.hint_text_color = hex('#000000')
+    self.temperature_input.hint_text = "Температура"
+
+    self.humidity_input.text = ''
+    self.humidity_input.hint_text_color = hex('#000000')
+    self.humidity_input.hint_text = "Вологість"
+
+    self.wind_speed_input.text = ''
+    self.wind_speed_input.hint_text_color = hex('#000000')
+    self.wind_speed_input.hint_text = "Швидкість руху вітру"
+
+    self.precipitation_input.text = ''
+    self.precipitation_input.hint_text_color = hex('#000000')
+    self.precipitation_input.hint_text = "Кількість опадів"
+
+    self.atmoshperic_pressure_input.text = ''
+    self.atmoshperic_pressure_input.hint_text_color = hex('#000000')
+    self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск"
