@@ -162,6 +162,57 @@ class Questionnaire(Screen):
       self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск повинен бути числом"
       return False
     
+
+
+    # Перевірка для текстових полів вводу
+    try:
+      str(clouds)
+    except ValueError:
+      self.cloud_cover_input.text = ''
+      self.cloud_cover_input.hint_text_color = hex('#ff0008')
+      self.cloud_cover_input.hint_text = "Хмарність повинна бути словом"
+      return False
+    
+    try:
+      str(season)
+    except ValueError:
+      self.season_input.text = ''
+      self.season_input.hint_text_color = hex('#ff0008')
+      self.season_input.hint_text = "Пора року повинна бути словом"
+      return False
+    
+    try:
+      str(location)
+    except ValueError:
+      self.location_input.text = ''
+      self.location_input.hint_text_color = hex('#ff0008')
+      self.location_input.hint_text = "Тип поверхні повинен бути словом"
+      return False
+    
+
+
+    # Перевірка правильлності в текстових полях вводу
+    clouds.lower()
+    season.lower()
+    location.lower()
+    if clouds != "" or season != "" or location != "":
+      if clouds != "похмуро" or clouds != "мілива хмарність" or clouds != "безхмарно" or clouds != "хмарно":
+        self.cloud_cover_input.text = ''
+        self.cloud_cover_input.hint_text_color = hex('#ff0008')
+        self.cloud_cover_input.hint_text = "Перевірте правильність написання відповіді"
+      if season != "зима" or season != "осінь" or season != "весна" or season != "літо":
+        self.season_input.text = ''
+        self.season_input.hint_text_color = hex('#ff0008')
+        self.season_input.hint_text = "Перевірте правильність написання відповіді"
+      if location != "рівнинний" or location != "гірський" or location != "прибережний":
+        self.location_input.text = ''
+        self.location_input.hint_text_color = hex('#ff0008')
+        self.location_input.hint_text = "Перевірте правильність написання відповіді"
+      return False
+
+
+
+    
   def commit(self, inst):
     # Йдемо на наступний етап
     if self.stage < 2:
@@ -187,6 +238,18 @@ class Questionnaire(Screen):
     self.precipitation_input.hint_text_color = hex('#000000')
     self.precipitation_input.hint_text = "Кількість опадів"
 
+    self.cloud_cover_input.text = ''
+    self.cloud_cover_input.hint_text_color = hex('#000000')
+    self.cloud_cover_input.hint_text = "Хмарність"
+
     self.atmoshperic_pressure_input.text = ''
     self.atmoshperic_pressure_input.hint_text_color = hex('#000000')
     self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск"
+
+    self.season_input.text = ''
+    self.season_input.hint_text_color = hex('#000000')
+    self.season_input.hint_text = "Пора року"
+
+    self.location_input.text = ''
+    self.location_input.hint_text_color = hex('#000000')
+    self.location_input.hint_text = "Тип поверхні"
