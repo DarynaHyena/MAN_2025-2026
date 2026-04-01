@@ -87,7 +87,7 @@ class Questionnaire(Screen):
     humidity = self.humidity_input.text.strip()
     wind = self.wind_speed_input.text.strip()
     precipitation = self.precipitation_input.text.strip()
-    clouds = self.cloud_cover_input.strip()
+    clouds = self.cloud_cover_input.text.strip()
     pressure = self.atmoshperic_pressure_input.text.strip()
     season = self.season_input.text.strip()
     location = self.location_input.text.strip()
@@ -195,20 +195,19 @@ class Questionnaire(Screen):
     clouds.lower()
     season.lower()
     location.lower()
-    if clouds != "" or season != "" or location != "":
-      if clouds != "похмуро" or clouds != "мілива хмарність" or clouds != "безхмарно" or clouds != "хмарно":
-        self.cloud_cover_input.text = ''
-        self.cloud_cover_input.hint_text_color = hex('#ff0008')
-        self.cloud_cover_input.hint_text = "Перевірте правильність написання відповіді"
-      if season != "зима" or season != "осінь" or season != "весна" or season != "літо":
-        self.season_input.text = ''
-        self.season_input.hint_text_color = hex('#ff0008')
-        self.season_input.hint_text = "Перевірте правильність написання відповіді"
-      if location != "рівнинний" or location != "гірський" or location != "прибережний":
-        self.location_input.text = ''
-        self.location_input.hint_text_color = hex('#ff0008')
-        self.location_input.hint_text = "Перевірте правильність написання відповіді"
-      return False
+    if clouds != "похмуро" or clouds != "мілива хмарність" or clouds != "безхмарно" or clouds != "хмарно":
+      self.cloud_cover_input.text = ''
+      self.cloud_cover_input.hint_text_color = hex('#ff0008')
+      self.cloud_cover_input.hint_text = "Перевірте правильність написання відповіді"
+    if season != "зима" or season != "осінь" or season != "весна" or season != "літо":
+      self.season_input.text = ''
+      self.season_input.hint_text_color = hex('#ff0008')
+      self.season_input.hint_text = "Перевірте правильність написання відповіді"
+    if location != "рівнинний" or location != "гірський" or location != "прибережний":
+      self.location_input.text = ''
+      self.location_input.hint_text_color = hex('#ff0008')
+      self.location_input.hint_text = "Перевірте правильність написання відповіді"
+    return False
 
 
 
