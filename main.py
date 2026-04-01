@@ -23,22 +23,22 @@ class Questionnaire(Screen):
 
     # загальні віджети
     self.anchor = AnchorLayout()
-    self.container = BoxLayout(orientation='vertical', spacing=dp(10), padding=dp(10))
-    self.button_container = BoxLayout(orientation='horizontal', spacing=dp(10), padding=dp(10))
+    self.container = BoxLayout(orientation='vertical', spacing=dp(1), padding=dp(1))
+    self.button_container = BoxLayout(orientation='horizontal', spacing=dp(1), padding=dp(1))
 
     # поля вводу
-    self.temperature_input = TextInput(hint_text='Температура', size_hint_y=None, height=dp(44))
-    self.humidity_input = TextInput(hint_text='Вологість',   size_hint_y=None, height=dp(44))
-    self.wind_speed_input = TextInput(hint_text='Швидкість руху повітря', size_hint_y=None, height=dp(44))
-    self.precipitation_input = TextInput(hint_text='Кількість опадів', size_hint_y=None, height=dp(44))
-    self.cloud_cover_input = TextInput(hint_text='Хмарність', size_hint_y=None, height=dp(44))
-    self.atmoshperic_pressure_input = TextInput(hint_text='Атмосферний тиск', size_hint_y=None, height=dp(44))
-    self.season_input = TextInput(hint_text='Пора року', size_hint_y=None, height=dp(44))
-    self.location_input = TextInput(hint_text='Тип поверхні', size_hint_y=None, height=dp(44))
+    self.temperature_input = TextInput(hint_text='Температура', size_hint_y=None, height=dp(30))
+    self.humidity_input = TextInput(hint_text='Вологість',   size_hint_y=None, height=dp(30))
+    self.wind_speed_input = TextInput(hint_text='Швидкість руху повітря', size_hint_y=None, height=dp(30))
+    self.precipitation_input = TextInput(hint_text='Кількість опадів', size_hint_y=None, height=dp(30))
+    self.cloud_cover_input = TextInput(hint_text='Хмарність', size_hint_y=None, height=dp(30))
+    self.atmoshperic_pressure_input = TextInput(hint_text='Атмосферний тиск', size_hint_y=None, height=dp(30))
+    self.season_input = TextInput(hint_text='Пора року', size_hint_y=None, height=dp(30))
+    self.location_input = TextInput(hint_text='Тип поверхні', size_hint_y=None, height=dp(30))
 
     # кнопки
-    self.commit_button = Button(text='Підтвердити дані', size_hint_y=None, height=dp(48))
-    self.reset_button = Button(text='Очистити дані', size_hint_y=None, height=dp(48))
+    self.commit_button = Button(text='Підтвердити дані', size_hint_y=None, height=dp(30))
+    self.reset_button = Button(text='Очистити дані', size_hint_y=None, height=dp(30))
 
     # підключаємо обробники
     self.commit_button.bind(on_press=self.commit)
@@ -56,21 +56,21 @@ class Questionnaire(Screen):
     
     if self.stage == 1:
       # Етап 1: анкета
-      self.container.add_widget(Label(text='Введіть дані про температуру: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про температуру: ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.temperature_input)
-      self.container.add_widget(Label(text='Введіть дані про вологість: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про вологість: ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.humidity_input)
-      self.container.add_widget(Label(text='Введіть дані про швидкість руху повітря (м/с): ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про швидкість руху повітря (м/с): ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.wind_speed_input)
-      self.container.add_widget(Label(text='Введіть дані про кількість опадів в рік: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про кількість опадів в рік: ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.precipitation_input)
-      self.container.add_widget(Label(text='Введіть дані про хмарність: (похмуро, мілива хмарність, безхмарно, хмарно)', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про хмарність: (похмуро, мілива хмарність, безхмарно, хмарно)', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.cloud_cover_input)
-      self.container.add_widget(Label(text='Введіть дані про атмосферний тиск: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про атмосферний тиск: ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.atmoshperic_pressure_input)
-      self.container.add_widget(Label(text='Введіть дані про пору року: ', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про пору року: ', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.season_input)
-      self.container.add_widget(Label(text='Введіть дані про тип поверхні: (рівнинний, гірський, прибережний)', font_size='18sp', color=(0,0,0,1)))
+      self.container.add_widget(Label(text='Введіть дані про тип поверхні: (рівнинний, гірський, прибережний)', font_size='15sp', color=(0,0,0,1)))
       self.container.add_widget(self.location_input)
       self.button_container.add_widget(self.commit_button)
       self.button_container.add_widget(self.reset_button)
