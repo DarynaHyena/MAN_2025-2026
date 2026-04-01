@@ -91,6 +91,10 @@ class Questionnaire(Screen):
     pressure = self.atmoshperic_pressure_input.text.strip()
     season = self.season_input.text.strip()
     location = self.location_input.text.strip()
+
+    clouds.lower()
+    season.lower()
+    location.lower()
             
     if not temperature and not humidity and not wind and not precipitation and not clouds and not pressure and not season and not location: # Перевірка на наявність даних
       if not temperature:
@@ -166,7 +170,7 @@ class Questionnaire(Screen):
 
     # Перевірка для текстових полів вводу
     try:
-      str(clouds)
+      int(clouds)
     except ValueError:
       self.cloud_cover_input.text = ''
       self.cloud_cover_input.hint_text_color = hex('#ff0008')
@@ -174,7 +178,7 @@ class Questionnaire(Screen):
       return False
     
     try:
-      str(season)
+      int(season)
     except ValueError:
       self.season_input.text = ''
       self.season_input.hint_text_color = hex('#ff0008')
@@ -182,7 +186,7 @@ class Questionnaire(Screen):
       return False
     
     try:
-      str(location)
+      int(location)
     except ValueError:
       self.location_input.text = ''
       self.location_input.hint_text_color = hex('#ff0008')
@@ -192,9 +196,7 @@ class Questionnaire(Screen):
 
 
     # Перевірка правильлності в текстових полях вводу
-    clouds.lower()
-    season.lower()
-    location.lower()
+    
     if clouds != "похмуро" or clouds != "мілива хмарність" or clouds != "безхмарно" or clouds != "хмарно":
       self.cloud_cover_input.text = ''
       self.cloud_cover_input.hint_text_color = hex('#ff0008')
