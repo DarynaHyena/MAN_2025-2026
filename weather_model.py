@@ -5,6 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
+import os
+
+
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 import matplotlib.pyplot as plt 
@@ -17,7 +20,7 @@ import seaborn as sns
 
 def train_model():
     '''Очищення та підготовка датасету'''
-    df = pd.read_csv("weather_clasification_data.csv")   #відкриваю датасет для читання
+    df = pd.read_csv(os.path.join(os.path.dirname(__file__), "weather_clasification_data.csv"))   #відкриваю датасет для читання
 
     df.drop(["Visibility (km)"], axis=1, inplace=True)  #видалення непотрібних колонок
     df.drop(["UV Index"], axis=1, inplace=True)
@@ -66,97 +69,12 @@ def train_model():
     x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
     y = df["Weather Type"]
 
+    x_train, x_test, y_train, y_test = train_test_split(x, y)    
+    sc = StandardScaler()
+    x = sc.fit_transform(x)
+    
+
     model_knn = KNeighborsClassifier()
     model_knn.fit(x, y)
     
-    return model_knn
-
-
-
-
-#це для точності результату
-# x_train, x_test, y_train, y_test = train_test_split(x, y)    
-# sc = StandardScaler()
-# x_train = sc.fit_transform(x_train)
-# x_test = sc.transform(x_test)
-# y_pred_knn = knn.predict(x_test)
-# print(accuracy_score(y_test, y_pred_knn)*100)
-# print(confusion_matrix(y_test, y_pred_knn))
-
-
-
-
-
-
-
-
-
-#print(df.info())   #вивід загальної інформації
-
-# tree = DecisionTreeClassifier()
-# tree.fit(x_train, y_train)
-# y_pred_tree = tree.predict(x_test)
-# print(accuracy_score(y_test, y_pred_tree)*100)
-# print(confusion_matrix(y_test, y_pred_tree))
-
-
-
-# def plot_confusion_matrix(y_test, y_pred, classes, title):
-#     cm = confusion_matrix(y_test ,y_pred)
-
-#     accuracy =  accuracy_score(y_test, y_pred)*100
-
-#     plt.figure(figsize=(8,6))
-#     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False, xticklabels=classes, yticklabels=classes)
-
-#     plt.title(f'{title}\nТoчність: {accuracy:.2f}%')
-#     plt.xlabel('Прогнозована погода')
-#     plt.ylabel('Реальна погода')
-#     plt.show()
-
-# classes = ['Rainy', 'Cloudy', 'Sunny', 'Snowy']
-
-
-
-# from sklearn.naive_bayes import GaussianNB
-
-# gnb = GaussianNB()
-# gnb.fit(x_train, y_train)
-# y_pred_gnb = gnb.predict(x_test)
-# print(accuracy_score(y_test, y_pred_gnb)*100)
-# print(confusion_matrix(y_test, y_pred_gnb))
-
-
-
-# from sklearn.ensemble import GradientBoostingClassifier
-
-# gbc = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0,max_depth=5, random_state=0)
-# gbc.fit(x_train, y_train)
-# y_pred_gbc = gbc.predict(x_test)
-# print(accuracy_score(y_test, y_pred_gbc)*100)
-# print(confusion_matrix(y_test, y_pred_gbc))
-
-
-
-# plot_confusion_matrix(y_test, y_pred_knn, classes, "KNN")
-# plot_confusion_matrix(y_test, y_pred_tree, classes, "Decision tree")
-# plot_confusion_matrix(y_test, y_pred_gnb, classes, "Naive Bayes")
-# plot_confusion_matrix(y_test, y_pred_gbc, classes, "Gradient boosting")
-
-# def plot_cm(y_test, y_pred, class_names, title, ax):
-#     cm = confusion_matrix(y_test, y_pred)
-#     accuracy = accuracy_score(y_test, y_pred) * 100
-
-#     sns.heatmap(cm, annot=True, fmt='d', ax=ax, cmap='Reds', xticklabels=class_names, yticklabels=class_names)
-#     ax.set_title(f'{title}\nТочність: {accuracy:.2f}%')
-
-# fig, axes = plt.subplots(2, 2, figsize=(12,8))
-# axes = axes.flatten()
-
-# plot_cm(y_test, y_pred_knn, classes, 'KNN Confusion Matrix', axes[0])
-# plot_cm(y_test, y_pred_tree, classes, 'Decision Tree Confusion Matrix', axes[1])
-# plot_cm(y_test, y_pred_gnb, classes, 'Naive Bayes classifier Confusion Matrix', axes[2])
-# plot_cm(y_test, y_pred_gbc, classes, 'Gradient boosting classifier Confusion Matrix', axes[3])
-
-# plt.tight_layout()
-# plt.show()
+    return model_knn, sc

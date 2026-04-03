@@ -13,14 +13,14 @@ from weather_model import train_model
 
 '''Кінець блоку імпортування бібліотек'''
 
-knn_model = train_model()
+knn_model, sc = train_model()
 
 
 weather_result_map = {
-  0: "rainy",
-  1: "cloudy",
-  2: "sunny",
-  3: "snowy"
+  1: "rainy",
+  2: "cloudy",
+  3: "sunny",
+  4: "snowy"
 }
 
 
@@ -89,7 +89,7 @@ class Questionnaire(Screen):
     elif self.stage == 2:
       # Етап 2: Вивід результатів 
       self.container.add_widget(Label(text='Результат: ', font_size='18sp', color=(0,0,0,1)))
-      self.container.add_widget(Label(text=' ', font_size='18sp', color=(0,0,0,1)))
+      
 
   def input_check(self): # Перевірка для полів вводу
     # Створення змінних для перевірки
@@ -181,54 +181,51 @@ class Questionnaire(Screen):
       self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск повинен бути числом"
       return False
     
-    # Перевірка для текстових полів вводу
-    try:
-      float(clouds)
-      self.cloud_cover_input.text = ''
-      self.cloud_cover_input.hint_text_color = hex('#ff0008')
-      self.cloud_cover_input.hint_text = "Хмарність повинна бути словом"
-      return False
-    except ValueError:
-      pass
-      
-    try:
-      float(season)
-      self.season_input.text = ''
-      self.season_input.hint_text_color = hex('#ff0008')
-      self.season_input.hint_text = "Пора року повинна бути словом"
-      return False
-    except ValueError:
-      pass
-      
-    try:
-      float(location)
-      self.location_input.text = ''
-      self.location_input.hint_text_color = hex('#ff0008')
-      self.location_input.hint_text = "Тип поверхні повинен бути словом"
-      return False
-    except ValueError:
-      pass
 
     # Перевірка правильлності в текстових полях вводу
+
+    clouds_map = {
+      "похмуро": 1,
+      "мінлива хмарність": 2,
+      "безхмарно": 3,
+      "хмарно": 4
+    }
+
+    season_map = {
+      "зима": 1,
+      "осінь": 2,
+      "весна": 3,
+      "літо": 4
+    }
+
+    location_map = {
+      "рівнинний": 1,
+      "гірський": 2,
+      "прибережний": 3
+    }
     
-    if clouds_input not in ["похмуро", "мілива хмарність", "безхмарно", "хмарно"]:
+    if clouds_input not in clouds_map:
       self.cloud_cover_input.text = ''
       self.cloud_cover_input.hint_text_color = hex('#ff0008')
       self.cloud_cover_input.hint_text = "Перевірте правильність написання відповіді"
       return False
-    if seasons_input not in ["зима", "осінь", "весна", "літо"]:
+    if seasons_input not in season_map:
       self.season_input.text = ''
       self.season_input.hint_text_color = hex('#ff0008')
       self.season_input.hint_text = "Перевірте правильність написання відповіді"
       return False
-    if locations_input not in ["рівнинний", "гірський", "прибережний"]:
+    if locations_input not in location_map:
       self.location_input.text = ''
       self.location_input.hint_text_color = hex('#ff0008')
       self.location_input.hint_text = "Перевірте правильність написання відповіді"
       return False
     
+    clouds = clouds_map[clouds_input]
+    season = season_map[seasons_input]
+    location = location_map[locations_input]
+    
 
-    return [[temperature, humidity, wind, precipitation, clouds, pressure, season, location]]
+    return [[float(temperature), float(humidity), float(wind), float(precipitation), clouds, float(pressure), season, location]]
 
 
     
@@ -236,10 +233,13 @@ class Questionnaire(Screen):
     # Йдемо на наступний етап
     if self.stage < 2:
       data = self.input_check()
-      if data is not None:
+      if data:
+        data = sc.transform(data)
         prediction = knn_model.predict(data)
-        result = weather_result_map.get(prediction[0], "невідомо")
-        print(result)
+        result = weather_result_map.get(prediction[0])
+        self.stage = 2
+        self.build_stage()
+        self.container.add_widget(Label(text=f'{result}', font_size='18sp', color=(0,0,0,1)))
 
 
 
