@@ -96,8 +96,6 @@ class Questionnaire(Screen):
     seasons_input = season.lower()
     locations_input = location.lower()
 
-    
-            
      # Перевірка на наявність даних
     if not temperature:
       self.temperature_input.hint_text_color = hex('#ff0008')
@@ -132,11 +130,9 @@ class Questionnaire(Screen):
       self.location_input.hint_text = "Будь ласка, введіть тип поверхні"
       return False
 
-
-
     # Перевірка чи дані записані правильно
     try:
-      int(temperature)
+      float(temperature)
     except ValueError:
       self.temperature_input.text = ''
       self.temperature_input.hint_text_color = hex('#ff0008')
@@ -144,7 +140,7 @@ class Questionnaire(Screen):
       return False
     
     try:
-      int(humidity)
+      float(humidity)
     except ValueError:
       self.humidity_input.text = ''
       self.humidity_input.hint_text_color = hex('#ff0008')
@@ -152,7 +148,7 @@ class Questionnaire(Screen):
       return False
     
     try:
-      int(wind)
+      float(wind)
     except ValueError:
       self.wind_speed_input.text = ''
       self.wind_speed_input.hint_text_color = hex('#ff0008')
@@ -160,7 +156,7 @@ class Questionnaire(Screen):
       return False
     
     try:
-      int(precipitation)
+      float(precipitation)
     except ValueError:
       self.precipitation_input.text = ''
       self.precipitation_input.hint_text_color = hex('#ff0008')
@@ -168,15 +164,13 @@ class Questionnaire(Screen):
       return False
     
     try:
-      int(pressure)
+      float(pressure)
     except ValueError:
       self.atmoshperic_pressure_input.text = ''
       self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
       self.atmoshperic_pressure_input.hint_text = "Атмосферний тиск повинен бути числом"
       return False
     
-
-
     # Перевірка для текстових полів вводу
     try:
       float(clouds)
@@ -187,7 +181,6 @@ class Questionnaire(Screen):
     except ValueError:
       pass
       
-    
     try:
       float(season)
       self.season_input.text = ''
@@ -197,7 +190,6 @@ class Questionnaire(Screen):
     except ValueError:
       pass
       
-    
     try:
       float(location)
       self.location_input.text = ''
@@ -206,9 +198,6 @@ class Questionnaire(Screen):
       return False
     except ValueError:
       pass
-      
-    
-
 
     # Перевірка правильлності в текстових полях вводу
     
@@ -227,8 +216,9 @@ class Questionnaire(Screen):
       self.location_input.hint_text_color = hex('#ff0008')
       self.location_input.hint_text = "Перевірте правильність написання відповіді"
       return False
-    return True
+    
 
+    return True
 
 
     
