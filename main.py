@@ -98,32 +98,39 @@ class Questionnaire(Screen):
 
     
             
-    if not temperature and not humidity and not wind and not precipitation and not clouds_input and not pressure and not seasons_input and not locations_input: # Перевірка на наявність даних
-      if not temperature:
-        self.temperature_input.hint_text_color = hex('#ff0008')
-        self.temperature_input.hint_text = "Будь ласка, введіть температуру"
-      if not humidity:
-        self.humidity_input.hint_text_color = hex('#ff0008')
-        self.humidity_input.hint_text = "Будь ласка, введіть вологість"
-      if not wind:
-        self.wind_speed_input.hint_text_color = hex('#ff0008')
-        self.wind_speed_input.hint_text = "Будь ласка, введіть швидкість руху вітру"
-      if not precipitation:
-        self.precipitation_input.hint_text_color = hex('#ff0008')
-        self.precipitation_input.hint_text = "Будь ласка, введіть кількість опадів"
-      if not clouds:
-        self.cloud_cover_input.hint_text_color = hex('#ff0008')
-        self.cloud_cover_input.hint_text = "Будь ласка, введіть дані про хмарність"
-      if not pressure:
-        self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
-        self.atmoshperic_pressure_input.hint_text = "Будь ласка, введіть тиск"
-      if not season:
-        self.season_input.hint_text_color = hex('#ff0008')
-        self.season_input.hint_text = "Будь ласка, введіть пору року"
-      if not location:
-        self.location_input.hint_text_color = hex('#ff0008')
-        self.location_input.hint_text = "Будь ласка, введіть тип поверхні"
-      #return False
+     # Перевірка на наявність даних
+    if not temperature:
+      self.temperature_input.hint_text_color = hex('#ff0008')
+      self.temperature_input.hint_text = "Будь ласка, введіть температуру"
+      return False
+    if not humidity:
+      self.humidity_input.hint_text_color = hex('#ff0008')
+      self.humidity_input.hint_text = "Будь ласка, введіть вологість"
+      return False
+    if not wind:
+      self.wind_speed_input.hint_text_color = hex('#ff0008')
+      self.wind_speed_input.hint_text = "Будь ласка, введіть швидкість руху вітру"
+      return False
+    if not precipitation:
+      self.precipitation_input.hint_text_color = hex('#ff0008')
+      self.precipitation_input.hint_text = "Будь ласка, введіть кількість опадів"
+      return False
+    if not clouds:
+      self.cloud_cover_input.hint_text_color = hex('#ff0008')
+      self.cloud_cover_input.hint_text = "Будь ласка, введіть дані про хмарність"
+      return False
+    if not pressure:
+      self.atmoshperic_pressure_input.hint_text_color = hex('#ff0008')
+      self.atmoshperic_pressure_input.hint_text = "Будь ласка, введіть тиск"
+      return False
+    if not season:
+      self.season_input.hint_text_color = hex('#ff0008')
+      self.season_input.hint_text = "Будь ласка, введіть пору року"
+      return False
+    if not location:
+      self.location_input.hint_text_color = hex('#ff0008')
+      self.location_input.hint_text = "Будь ласка, введіть тип поверхні"
+      return False
 
 
 
@@ -171,47 +178,56 @@ class Questionnaire(Screen):
 
 
     # Перевірка для текстових полів вводу
-    # try:
-    #   int(clouds)
-    # except ValueError:
-    #   self.cloud_cover_input.text = ''
-    #   self.cloud_cover_input.hint_text_color = hex('#ff0008')
-    #   self.cloud_cover_input.hint_text = "Хмарність повинна бути словом"
-    #   return False
+    try:
+      float(clouds)
+      self.cloud_cover_input.text = ''
+      self.cloud_cover_input.hint_text_color = hex('#ff0008')
+      self.cloud_cover_input.hint_text = "Хмарність повинна бути словом"
+      return False
+    except ValueError:
+      pass
+      
     
-    # try:
-    #   int(season)
-    # except ValueError:
-    #   self.season_input.text = ''
-    #   self.season_input.hint_text_color = hex('#ff0008')
-    #   self.season_input.hint_text = "Пора року повинна бути словом"
-    #   return False
+    try:
+      float(season)
+      self.season_input.text = ''
+      self.season_input.hint_text_color = hex('#ff0008')
+      self.season_input.hint_text = "Пора року повинна бути словом"
+      return False
+    except ValueError:
+      pass
+      
     
-    # try:
-    #   int(location)
-    # except ValueError:
-    #   self.location_input.text = ''
-    #   self.location_input.hint_text_color = hex('#ff0008')
-    #   self.location_input.hint_text = "Тип поверхні повинен бути словом"
-    #   return False
+    try:
+      float(location)
+      self.location_input.text = ''
+      self.location_input.hint_text_color = hex('#ff0008')
+      self.location_input.hint_text = "Тип поверхні повинен бути словом"
+      return False
+    except ValueError:
+      pass
+      
     
 
 
     # Перевірка правильлності в текстових полях вводу
     
-    if clouds_input != "похмуро" or clouds_input != "мілива хмарність" or clouds_input != "безхмарно" or clouds_input != "хмарно":
+    if clouds_input not in ["похмуро", "мілива хмарність", "безхмарно", "хмарно"]:
       self.cloud_cover_input.text = ''
       self.cloud_cover_input.hint_text_color = hex('#ff0008')
       self.cloud_cover_input.hint_text = "Перевірте правильність написання відповіді"
-    if seasons_input != "зима" or seasons_input != "осінь" or seasons_input != "весна" or seasons_input != "літо":
+      return False
+    if seasons_input not in ["зима", "осінь", "весна", "літо"]:
       self.season_input.text = ''
       self.season_input.hint_text_color = hex('#ff0008')
       self.season_input.hint_text = "Перевірте правильність написання відповіді"
-    if locations_input != "рівнинний" or locations_input != "гірський" or locations_input != "прибережний":
+      return False
+    if locations_input not in ["рівнинний", "гірський", "прибережний"]:
       self.location_input.text = ''
       self.location_input.hint_text_color = hex('#ff0008')
       self.location_input.hint_text = "Перевірте правильність написання відповіді"
-    #return False
+      return False
+    return True
 
 
 
