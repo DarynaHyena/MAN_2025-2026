@@ -9,9 +9,19 @@ from kivy.uix.textinput     import TextInput
 from kivy.metrics           import dp
 from kivy.utils             import get_color_from_hex as hex
 
+from weather_model import train_model
+
 '''Кінець блоку імпортування бібліотек'''
 
+knn_model = train_model()
 
+
+weather_result_map = {
+  0: "rainy",
+  1: "cloudy",
+  2: "sunny",
+  3: "snowy"
+}
 
 
 
@@ -218,16 +228,20 @@ class Questionnaire(Screen):
       return False
     
 
-    return True
+    return [[temperature, humidity, wind, precipitation, clouds, pressure, season, location]]
 
 
     
   def commit(self, inst):
     # Йдемо на наступний етап
     if self.stage < 2:
-      if self.input_check():
-        self.stage += 1
-        self.build_stage()
+      data = self.input_check()
+      if data is not None:
+        prediction = knn_model.predict(data)
+        result = weather_result_map.get(prediction[0], "невідомо")
+        print(result)
+
+
 
   def input_reset(self):
     # Очищення даних

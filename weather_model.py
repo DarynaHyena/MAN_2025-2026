@@ -15,85 +15,83 @@ import seaborn as sns
 
 
 
+def train_model():
+    '''Очищення та підготовка датасету'''
+    df = pd.read_csv("weather_clasification_data.csv")   #відкриваю датасет для читання
 
-'''Очищення та підготовка датасету'''
+    df.drop(["Visibility (km)"], axis=1, inplace=True)  #видалення непотрібних колонок
+    df.drop(["UV Index"], axis=1, inplace=True)
 
-df = pd.read_csv("weather_clasification_data.csv")   #відкриваю датасет для читання
+    def transform_cloudy(row):
+        if row == "overcast":
+            return 1
+        elif row == "partly cloud":
+            return 2
+        elif row == "clear":
+            return 3
+        return 4
 
-df.drop(["Visibility (km)"], axis=1, inplace=True)  #видалення непотрібних колонок
-df.drop(["UV Index"], axis=1, inplace=True)
+    def transform_season(row):
+        if row == "Winter":
+            return 1
+        elif row == "Spring":
+            return 2
+        elif row == "Autumn":
+            return 3
+        return 4
 
-def transform_cloudy(row):
-    if row == "overcast":
-        return 1
-    elif row == "partly cloud":
-        return 2
-    elif row == "clear":
+    def transform_location(row):
+        if row == "inland":
+            return 1
+        elif row == "mountain":
+            return 2
         return 3
-    return 4
 
-def transform_season(row):
-    if row == "Winter":
-        return 1
-    elif row == "Spring":
-        return 2
-    elif row == "Autumn":
-        return 3
-    return 4
+    def transform_type(row):
+        if row == "Rainy":
+            return 1
+        elif row == "Cloudy":
+            return 2
+        elif row == "Sunny":
+            return 3
+        return 4
 
-def transform_location(row):
-    if row == "inland":
-        return 1
-    elif row == "mountain":
-        return 2
-    return 3
+    df["Cloud Cover"] = df["Cloud Cover"].apply(transform_cloudy)   #застосовую функції
+    df["Season"] = df["Season"].apply(transform_season)
+    df["Location"] = df["Location"].apply(transform_location)
+    df["Weather Type"] = df["Weather Type"].apply(transform_type)
 
-def transform_type(row):
-    if row == "Rainy":
-        return 1
-    elif row == "Cloudy":
-        return 2
-    elif row == "Sunny":
-        return 3
-    return 4
+    '''Кінець блоку підготовки датасету'''
 
-df["Cloud Cover"] = df["Cloud Cover"].apply(transform_cloudy)   #застосовую функції
-df["Season"] = df["Season"].apply(transform_season)
-df["Location"] = df["Location"].apply(transform_location)
-df["Weather Type"] = df["Weather Type"].apply(transform_type)
+    x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
+    y = df["Weather Type"]
 
-print(df.info())   #вивід загальної інформації
-
-'''Кінець блоку підготовки датасету'''
+    model_knn = KNeighborsClassifier()
+    model_knn.fit(x, y)
+    
+    return model_knn
 
 
 
 
-
-'''Підстановка данних'''
-
-x = df.drop("Weather Type", axis=1)
-y = df["Weather Type"]
-
-x_train, x_test, y_train, y_test = train_test_split(x, y)    
-
-sc = StandardScaler()
-x_train = sc.fit_transform(x_train)
-x_test = sc.transform(x_test)
-
-'''Кінець підстановки'''
+#це для точності результату
+# x_train, x_test, y_train, y_test = train_test_split(x, y)    
+# sc = StandardScaler()
+# x_train = sc.fit_transform(x_train)
+# x_test = sc.transform(x_test)
+# y_pred_knn = knn.predict(x_test)
+# print(accuracy_score(y_test, y_pred_knn)*100)
+# print(confusion_matrix(y_test, y_pred_knn))
 
 
 
 
 
-''' '''
 
-knn = KNeighborsClassifier()
-knn.fit(x_train, y_train)
-y_pred_knn = knn.predict(x_test)
-print(accuracy_score(y_test, y_pred_knn)*100)
-print(confusion_matrix(y_test, y_pred_knn))
+
+
+
+#print(df.info())   #вивід загальної інформації
 
 # tree = DecisionTreeClassifier()
 # tree.fit(x_train, y_train)
