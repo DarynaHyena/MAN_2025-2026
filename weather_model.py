@@ -4,17 +4,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
 import os
-
 
 from sklearn.metrics import accuracy_score
 
-import matplotlib.pyplot as plt 
-import seaborn as sns 
-
 '''Кінець блоку імпортування бібліотек'''
-
 
 
 
@@ -65,7 +59,12 @@ def train_model():
     df["Weather Type"] = df["Weather Type"].apply(transform_type)
 
     '''Кінець блоку підготовки датасету'''
-    x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
+
+
+
+    '''Навчання і тренування моделі'''
+
+    x = df.drop("Weather Type", axis=1)   #Підстановка данних
     y = df["Weather Type"]
 
     x_train, x_test, y_train, y_test = train_test_split(x, y)
@@ -79,15 +78,6 @@ def train_model():
     y_pred_knn = model_knn.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred_knn)
 
-    # x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
-    # y = df["Weather Type"]
-
-    # x_train, x_test, y_train, y_test = train_test_split(x, y)    
-    # sc = StandardScaler()
-    # x = sc.fit_transform(x)
-    
-
-    # model_knn = KNeighborsClassifier()
-    # model_knn.fit(x, y)
+    '''Кінець блоку навчання і тренування моделі'''
     
     return model_knn, sc, accuracy
