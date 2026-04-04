@@ -244,10 +244,11 @@ class Questionnaire(Screen):
         data = sc.transform(data)
         prediction = knn_model.predict(data)
         result = weather_result_map.get(prediction[0])
+        model_accuracy = accuracy
         self.stage = 2
         self.build_stage()
         self.container.add_widget(Label(text=f'{result}', font_size='18sp', color=(0,0,0,1)))
-        self.container.add_widget(Label(text=f"Точність моделі: {round(accuracy * 100, 2)}%"))
+        self.container.add_widget(Label(text=f"Точність моделі: {round(model_accuracy * 100, 2)}%", font_size='18sp', color=(0,0,0,1)))
 
 
 
