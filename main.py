@@ -14,14 +14,7 @@ import pandas as pd
 '''Кінець блоку імпортування бібліотек'''
 
 knn_model, sc, accuracy = train_model()
-
-
-
 columns = ["Temperature", "Humidity", "Wind Speed", "Precipitation (%)", "Cloud Cover", "Atmospheric Pressure", "Season", "Location"]
-
-
-
-
 weather_result_map = {
   1: "rainy",
   2: "cloudy",
