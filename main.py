@@ -8,12 +8,18 @@ from kivy.uix.label         import Label
 from kivy.uix.textinput     import TextInput
 from kivy.metrics           import dp
 from kivy.utils             import get_color_from_hex as hex
-
 from weather_model import train_model
+import pandas as pd
 
 '''Кінець блоку імпортування бібліотек'''
 
-knn_model, sc = train_model()
+knn_model, sc, accuracy = train_model()
+
+
+
+columns = ["Temperature", "Humidity", "Wind Speed", "Precipitation (%)", "Cloud Cover", "Atmospheric Pressure", "Season", "Location"]
+
+
 
 
 weather_result_map = {
@@ -234,12 +240,14 @@ class Questionnaire(Screen):
     if self.stage < 2:
       data = self.input_check()
       if data:
+        data = pd.DataFrame(data, columns=columns)
         data = sc.transform(data)
         prediction = knn_model.predict(data)
         result = weather_result_map.get(prediction[0])
         self.stage = 2
         self.build_stage()
         self.container.add_widget(Label(text=f'{result}', font_size='18sp', color=(0,0,0,1)))
+        self.container.add_widget(Label(text=f"Точність моделі: {round(accuracy * 100, 2)}%"))
 
 
 

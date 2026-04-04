@@ -65,16 +65,29 @@ def train_model():
     df["Weather Type"] = df["Weather Type"].apply(transform_type)
 
     '''Кінець блоку підготовки датасету'''
-
     x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
     y = df["Weather Type"]
 
-    x_train, x_test, y_train, y_test = train_test_split(x, y)    
+    x_train, x_test, y_train, y_test = train_test_split(x, y)
+
     sc = StandardScaler()
-    x = sc.fit_transform(x)
-    
+    x_train = sc.fit_transform(x_train)
+    x_test = sc.transform(x_test)
 
     model_knn = KNeighborsClassifier()
-    model_knn.fit(x, y)
+    model_knn.fit(x_train, y_train)
+    y_pred_knn = model_knn.predict(x_test)
+    accuracy = accuracy_score(y_test, y_pred_knn)
+
+    # x = df.drop("Weather Type", axis=1)   #'''Підстановка данних'''
+    # y = df["Weather Type"]
+
+    # x_train, x_test, y_train, y_test = train_test_split(x, y)    
+    # sc = StandardScaler()
+    # x = sc.fit_transform(x)
     
-    return model_knn, sc
+
+    # model_knn = KNeighborsClassifier()
+    # model_knn.fit(x, y)
+    
+    return model_knn, sc, accuracy
