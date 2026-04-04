@@ -8,7 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 import os
 
 
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 import matplotlib.pyplot as plt 
 import seaborn as sns 
