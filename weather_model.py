@@ -3,7 +3,7 @@
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
 import os
 
 from sklearn.metrics import accuracy_score
@@ -73,11 +73,11 @@ def train_model():
     x_train = sc.fit_transform(x_train)
     x_test = sc.transform(x_test)
 
-    model_knn = KNeighborsClassifier()
-    model_knn.fit(x_train, y_train)
-    y_pred_knn = model_knn.predict(x_test)
+    model_tree = DecisionTreeClassifier()
+    model_tree.fit(x_train, y_train)
+    y_pred_knn = model_tree.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred_knn)
 
     '''Кінець блоку навчання і тренування моделі'''
     
-    return model_knn, sc, accuracy
+    return model_tree, sc, accuracy
