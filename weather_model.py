@@ -75,8 +75,8 @@ def train_model():
 
     model_tree = DecisionTreeClassifier()
     model_tree.fit(x_train, y_train)
-    y_pred_knn = model_tree.predict(x_test)
-    accuracy = accuracy_score(y_test, y_pred_knn)
+    y_pred_tree = model_tree.predict(x_test)
+    accuracy = accuracy_score(y_test, y_pred_tree)
 
     '''Кінець блоку навчання і тренування моделі'''
     
